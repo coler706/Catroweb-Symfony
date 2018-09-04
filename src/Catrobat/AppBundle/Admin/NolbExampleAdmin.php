@@ -2,10 +2,12 @@
 
 namespace Catrobat\AppBundle\Admin;
 
+use Catrobat\AppBundle\Entity\Program;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class NolbExampleAdmin extends AbstractAdmin
 {
@@ -26,7 +28,13 @@ class NolbExampleAdmin extends AbstractAdmin
   protected function configureFormFields(FormMapper $formMapper)
   {
     $formMapper
-      ->add('program', 'entity', ['class' => 'Catrobat\AppBundle\Entity\Program', 'required' => true], ['admin_code' => 'catrowebadmin.block.programs.all'])
+      ->add('program', EntityType::class,
+        [
+          'class'    => Program::class,
+          'required' => true,
+        ],
+        ['admin_code' => 'catrowebadmin.block.programs.all']
+      )
       ->add('active', null, ['required' => false])
       ->add('is_for_female', null, ['required' => false]);
   }
@@ -43,7 +51,13 @@ class NolbExampleAdmin extends AbstractAdmin
   {
     $listMapper
       ->addIdentifier('id')
-      ->add('program', 'entity', ['class' => 'Catrobat\AppBundle\Entity\Program', 'route' => ['name' => 'show'], 'admin_code' => 'catrowebadmin.block.programs.all'])
+      ->add('program', EntityType::class,
+        [
+          'class'      => 'Catrobat\AppBundle\Entity\Program',
+          'route'      => ['name' => 'show'],
+          'admin_code' => 'catrowebadmin.block.programs.all',
+        ]
+      )
       ->add('active', null, ['editable' => true])
       ->add('is_for_female', null, ['editable' => true])
       ->add('downloads_from_female')

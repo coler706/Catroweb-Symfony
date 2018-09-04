@@ -9,6 +9,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Catrobat\AppBundle\Entity\User;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\CoreBundle\Model\Metadata;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AllProgramsAdmin extends AbstractAdmin
 {
@@ -24,9 +26,9 @@ class AllProgramsAdmin extends AbstractAdmin
   protected function configureFormFields(FormMapper $formMapper)
   {
     $formMapper
-      ->add('name', 'text', ['label' => 'Program name'])
+      ->add('name', TextType::class, ['label' => 'Program name'])
       ->add('description')
-      ->add('user', 'entity', ['class' => 'Catrobat\AppBundle\Entity\User'])
+      ->add('user', EntityType::class, ['class' => User::class])
       ->add('downloads')
       ->add('views')
       ->add('flavor')
@@ -71,7 +73,11 @@ class AllProgramsAdmin extends AbstractAdmin
       ->add('flavor', 'string', ['editable' => true])
       ->add('views')
       ->add('downloads')
-      ->add('thumbnail', 'string', ['template' => 'Admin/program_thumbnail_image_list.html.twig'])
+      ->add('thumbnail', 'string',
+        [
+          'template' => 'Admin/program_thumbnail_image_list.html.twig'
+        ]
+      )
       ->add('approved', null, ['editable' => true])
       ->add('visible', null, ['editable' => true])
       ->add('_action', 'actions', ['actions' => [

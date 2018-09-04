@@ -2,12 +2,14 @@
 
 namespace Catrobat\AppBundle\Admin;
 
+use Catrobat\AppBundle\Entity\User;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Catrobat\AppBundle\Entity\Program;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ReportedProgramsAdmin extends AbstractAdmin
 {
@@ -54,13 +56,27 @@ class ReportedProgramsAdmin extends AbstractAdmin
         ['choices' => [1 => 'NEW', 2 => 'ACCEPTED', 3 => 'REJECTED'], 'editable' => true])
       ->add('time')
       ->add('note')
-      ->add('reportingUser', 'entity', ['class' => 'Catrobat\AppBundle\Entity\User'])
-      ->add('program', 'entity', ['class' => 'Catrobat\AppBundle\Entity\Program', 'admin_code' => 'catrowebadmin.block.programs.all', 'editable' => false])
+      ->add('reportingUser', EntityType::class,
+        [
+          'class' => User::class,
+        ]
+      )
+      ->add('program', EntityType::class,
+        [
+          'class'      => Program::class,
+          'admin_code' => 'catrowebadmin.block.programs.all',
+          'editable'   => false,
+        ]
+      )
       ->add('program.visible', 'boolean', ['editable' => true])
-      ->add('_action', 'actions', ['actions' => [
-        'show' => ['template' => 'CRUD/list__action_show_reported_program_details.html.twig'],
-        'edit' => [],
-      ]]);
+      ->add('_action', 'actions',
+        [
+          'actions' => [
+            'show' => ['template' => 'CRUD/list__action_show_reported_program_details.html.twig'],
+            'edit' => [],
+          ],
+        ]
+      );
   }
 
   // Fields to be shown on create/edit forms

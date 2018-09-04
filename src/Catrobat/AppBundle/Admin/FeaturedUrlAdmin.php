@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Catrobat\AppBundle\Forms\FeaturedImageConstraint;
 use Sonata\CoreBundle\Model\Metadata;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class FeaturedUrlAdmin extends AbstractAdmin
 {
@@ -38,7 +39,7 @@ class FeaturedUrlAdmin extends AbstractAdmin
     }
 
     $formMapper
-      ->add('file', 'file', $file_options)
+      ->add('file', FileType::class, $file_options)
       ->add('url', 'url')
       ->add('flavor')
       ->add('priority')
